@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pytest = ">=7.0.0"
+pytest-bdd = ">=7.0.0"
+Appium-Python-Client = ">=4.0.0"
+selenium = ">=4.20.0"
+mitmproxy = ">=10.0.0"
+gspread = ">=5.0.0"
+google-auth = ">=2.0.0"
+google-auth-oauthlib = ">=1.0.0"
+google-auth-httplib2 = ">=0.1.0"
+python-dotenv = ">=1.0.0"
+requests = ">=2.28.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

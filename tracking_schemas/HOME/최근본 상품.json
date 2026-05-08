@@ -1,0 +1,130 @@
+{
+  "product_click": {
+    "_f_t": "false",
+    "_g_encode": "utf-8",
+    "_gr_uid_": "11758850530814005372000000",
+    "_is_auto_clk": "1",
+    "_p_url": "mandatory",
+    "b": "mandatory",
+    "cache": "mandatory",
+    "cguid": "11758850530814005372000000",
+    "cna": "mandatory",
+    "customSdkId": "",
+    "device_model": [
+      "Windows",
+      "Macintosh",
+      "iPhone"
+    ],
+    "gmkey": "CLK",
+    "gokey": "mandatory",
+    "ism": [
+      "pc",
+      "mac",
+      "iphone"
+    ],
+    "jsver": "aplus.js",
+    "language": [
+      "ko-KR",
+      "en-US"
+    ],
+    "logtype": "2",
+    "lstag": "-1",
+    "lver": "1.13.26-1",
+    "m": [
+      "360ee",
+      ""
+    ],
+    "o": [
+      "win10",
+      "mac",
+      "ios16"
+    ],
+    "os": [
+      "Windows",
+      "Mac OS X",
+      "IOS"
+    ],
+    "os_version": [
+      "win10",
+      "10.15.7",
+      "16.0"
+    ],
+    "p": "1",
+    "params-clk": {
+      "parsed": {
+        "_p_catalog": "skip",
+        "_p_group": "skip",
+        "_p_sku": "0",
+        "ab_buckets": "skip",
+        "gmkt_page_id": "",
+        "is_airticket": "N",
+        "module_index": "mandatory",
+        "section_index": "",
+        "utLogMap": {
+          "parsed": {
+            "ab_buckets": "skip",
+            "pageIndex": "0",
+            "pageSize": "mandatory",
+            "pvid": "skip",
+            "x_object_type": "item",
+            "x_sku_id": "0",
+            "pagePos": "0",
+            "trafficType": "<trafficType>",
+            "scene": "",
+            "adProduct": "",
+            "adSubProduct": "",
+            "x_object_id": "<상품번호>",
+            "listno": "0",
+            "pvid_sys": "gmarket server",
+            "origin_price": "<원가>",
+            "promotion_price": "<할인가>",
+            "coupon_price": "<쿠폰적용가>",
+            "seed_item_id": "",
+            "seed_item_index": "",
+            "seed_item_keyword": "",
+            "sub_scene": "",
+            "sort": "",
+            "searchScenario": "",
+            "query": "<검색어>",
+            "search_session_id": "skip"
+          },
+          "raw": "mandatory"
+        },
+        "gmkt_area_code": "200004486",
+        "_p_prod": "<상품번호>",
+        "is_ad": "<is_ad>"
+      },
+      "raw": "mandatory"
+    },
+    "pguid": "skip",
+    "platformType": [
+      "pc",
+      "mac",
+      "wap"
+    ],
+    "rd": "mandatory",
+    "s": [
+      "1280x720",
+      "390x844"
+    ],
+    "scm": "",
+    "scr": "mandatory",
+    "sguid": "skip",
+    "st_page_id": "mandatory",
+    "stag": "-1",
+    "tag": "1",
+    "ts": "mandatory",
+    "uidaplus": "11758850530814005372000000",
+    "w": [
+      "webkit",
+      "chrome"
+    ],
+    "spm-cnt": "gmktm.common.0.0",
+    "spm-url": "",
+    "spm-pre": "",
+    "pid": "m_gmarket_co_kr",
+    "channel_code": "200003514",
+    "server_env": "<environment>",
+    "spm": "gmktm.common.rvh.ditem0"
+  }
+}

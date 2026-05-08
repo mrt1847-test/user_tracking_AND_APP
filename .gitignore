@@ -1,0 +1,34 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# log
+*.log
+*.log.*
+
+# idea
+.idea/
+
+# local db
+_local_db
+
+# node_modules
+node_modules/
+
+
+# Environments
+.env
+.python-version
+.venv
+venv/
+ENV/
+env/
+# Pipenv
+Pipfile.lock
+
+# netrc
+.netrc
+json/
+state.json
+
+python-link-test-380006-2868d392d217.json

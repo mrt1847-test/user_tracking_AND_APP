@@ -1,0 +1,20 @@
+{
+  "module_exposure": {
+    "spm": "gmktm.home.beauty",
+    "spm-cnt": "gmktm.home.0.0",
+    "spm-url": "",
+    "spm-pre": "",
+    "cguid": [
+      "11412244806446005562000000",
+      "11713509310059008202000000"
+    ],
+    "pguid": "skip",
+    "sguid": "skip",
+    "gmkt_page_id": "",
+    "gmkt_area_code": "",
+    "section_index": "mandatory",
+    "module_index": "skip",
+    "channel_code": "200003514",
+    "ab_buckets": "skip"
+  }
+}

@@ -1,0 +1,81 @@
+{
+    "testrail_report": "Y",
+    "testrail_run_name": "User Tracking Aoutomation Test-mweb {datetime}",
+    "testrail_run_create": true,
+    "testrail_run_id": "63031",
+    "testrail_close_run_on_finish": "N",
+    "milestone_id": "",
+    "project_id": "",
+    "section_id": "",
+    "suite_id": "",
+    "kotlin": {
+        "milestone_id": "1673",
+        "project_id": "219",
+        "section_id": "111257",
+        "suite_id": "3582"
+    },
+    "gemini": {
+        "milestone_id": "1671",
+        "project_id": "222",
+        "section_id": "111278",
+        "suite_id": "3588"
+    },
+    "tr_url": "http://172.30.2.20",
+    "multiple_test_use": false,
+    "automation_backend": "appium",
+    "runner_backend": "appium_hybrid_android",
+    "environment": "elsa",
+    "mobile_profile": "galaxy_s20",
+    "appium": {
+        "server_url": "http://127.0.0.1:4723",
+        "manage_server": true,
+        "server_start_timeout": 20,
+        "allow_insecure": [
+            "chromedriver_autodownload"
+        ],
+        "platformName": "Android",
+        "automationName": "UiAutomator2",
+        "deviceName": "Android Emulator",
+        "app": "apps/gmarket-debug.apk",
+        "appPackage": "com.ebay.kr.gmarket",
+        "appActivity": "com.ebay.kr.gmarket.eBayKoreaGmarketActivity",
+        "adbExecTimeout": 60000,
+        "newCommandTimeout": 900,
+        "noReset": false,
+        "autoGrantPermissions": true,
+        "acceptInsecureCerts": true,
+        "preferWebview": true,
+        "webviewConnectTimeout": 15000,
+        "autoWebview": false,
+        "launch_activity_on_start": true,
+        "chromeOptions": {
+            "androidPackage": "com.ebay.kr.gmarket",
+            "androidProcess": "com.ebay.kr.gmarket"
+        }
+    },
+    "app_login": {
+        "enabled": true,
+        "require_webview": true,
+        "entry_selector": "a.link.link__myg",
+        "username_selector": "#typeMemberInputId",
+        "password_selector": "#typeMemberInputPassword",
+        "submit_selector": "#btn_memberLogin",
+        "success_selector": "text=로그아웃",
+        "popup_close_selectors": [
+            ".button__popup-close[aria-label='레이어 닫기']",
+            ".button__close:has-text('레이어 닫기')"
+        ]
+    },
+    "proxy": {
+        "backend": "mitmproxy",
+        "listen_host": "127.0.0.1",
+        "device_host": "10.0.2.2",
+        "listen_port": 8081,
+        "install_ca": true,
+        "capture_domains": [
+            "aplus.gmarket.co.kr",
+            "aplus.gmarket.com"
+        ]
+    },
+    "spreadsheet_id": "1iv_ok0kTzWWPhzyRRbpEEnH3DPGE7VSJg2mmdlRPD78"
+}

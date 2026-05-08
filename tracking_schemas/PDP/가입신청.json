@@ -1,0 +1,110 @@
+{
+  "pdp_join_click": {
+    "payload": {
+      "decoded_gokey": {
+        "params": {
+          "device_model": [
+            "Windows",
+            "Macintosh",
+            "iPhone"
+          ],
+          "ism": [
+            "pc",
+            "mac",
+            "iphone"
+          ],
+          "m": [
+            "360ee",
+            ""
+          ],
+          "o": [
+            "win10",
+            "mac",
+            "ios16"
+          ],
+          "os": [
+            "Windows",
+            "Mac OS X",
+            "IOS"
+          ],
+          "os_version": [
+            "win10",
+            "10.15.7",
+            "16.0"
+          ],
+          "platformType": [
+            "pc",
+            "mac",
+            "wap"
+          ],
+          "s": [
+            "1280x720",
+            "390x844"
+          ],
+          "spm-url": "",
+          "spm-pre": "",
+          "spm-cnt": "gmktm.pdp.0.0",
+          "_f_t": "false",
+          "pid": "m_gmarket_co_kr",
+          "cguid": "11758850530814005372000000",
+          "pguid": "skip",
+          "sguid": "skip",
+          "channel_code": "200003514",
+          "st_page_id": "mandatory",
+          "server_env": "<environment>",
+          "gmkt_page_id": "",
+          "gmkt_area_code": "200004220",
+          "_p_group_typ": "0",
+          "_p_prod_main": "2529094051",
+          "section_index": "",
+          "module_index": "mandatory",
+          "clk_itm_info": {
+            "raw": "mandatory",
+            "parsed[0]": {
+              "_p_prod": "<상품번호>",
+              "_p_sku_id": "89855156798_67344109500_89855156797_67344109506_67344109509",
+              "_p_sku_info": "89855156798\u001e185일 유지 요금제\u001e테스트\u001f67344109500\u001e개통자 성함\u001e테스트\u001f89855156797\u001e구매 모델명\u001e테스트\u001f67344109506\u001e현재 통신사\u001e테스트\u001f67344109509\u001e희망 통신사\u001e테스트",
+              "_p_catalog": "skip",
+              "_p_group": "skip",
+              "quantity": "1",
+              "itm_price": "1",
+              "_p_parent_sku_id": "",
+              "_p_parent_sku_info": ""
+            }
+          },
+          "utparam-url": "skip",
+          "spm": "gmktm.pdp.buyarea_signup.d0",
+          "cache": "mandatory",
+          "jsver": "aplus.js",
+          "lver": "1.13.26-1",
+          "customSdkId": "",
+          "language": [
+            "ko-KR",
+            "en-US"
+          ],
+          "w": [
+            "webkit",
+            "chrome"
+          ],
+          "scr": "mandatory",
+          "p": "1",
+          "b": "mandatory",
+          "tag": "1",
+          "stag": "-1",
+          "lstag": "-1",
+          "_g_encode": "utf-8"
+        },
+        "decoded_gokey": "mandatory"
+      },
+      "gmkey": "CLK",
+      "ts": "mandatory",
+      "rd": "mandatory",
+      "gokey": "mandatory",
+      "cna": "mandatory",
+      "spm-cnt": "gmktm.pdp.0.0",
+      "logtype": "2",
+      "scr": "mandatory",
+      "_p_url": "mandatory"
+    }
+  }
+}
