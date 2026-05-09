@@ -34,7 +34,7 @@ def _is_price_sentinel_one(value: Any) -> bool:
 
 class TrackingLogStore:
     """
-    aplus.gmarket 도메인의 POST 요청을 실시간으로 감지하고 분류하는 클래스
+    aplus.gmarket 도메인의 POST·GET 요청을 실시간으로 감지하고 분류하는 클래스
     """
     
     def __init__(
@@ -84,9 +84,18 @@ class TrackingLogStore:
     ) -> None:
         if not url or not self.domain_pattern.search(url):
             return
-        if (method or '').upper() != 'POST':
+        method_u = (method or '').upper()
+        if method_u not in ('POST', 'GET'):
             return
-        parsed_payload = self._parse_payload(post_data)
+        if method_u == 'GET':
+            body = (post_data or '').strip()
+            if body:
+                parsed_payload = self._parse_payload(post_data)
+            else:
+                query = urlparse(url).query
+                parsed_payload = self._parse_query_string(query) if query else None
+        else:
+            parsed_payload = self._parse_payload(post_data)
         request_type = self._classify_request_type(url, parsed_payload)
         log_entry = {
             'type': request_type,

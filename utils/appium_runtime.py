@@ -71,11 +71,11 @@ class AppiumRuntime:
 
     @property
     def capture_domains(self) -> list[str]:
-        """Hosts for TRACKING_CAPTURE_DOMAINS (mitm_capture_addon POST filter).
+        """Hosts for TRACKING_CAPTURE_DOMAINS (mitm_capture_addon POST/GET filter).
 
         - Key omitted from config: treat as defaults (backward compatible).
-        - Empty list [], or list of blanks only: capture every POST host (discovery).
-        - Otherwise: only POSTs matching one of these host suffixes are written to proxy_capture.jsonl.
+        - Empty list [], or list of blanks only: capture every POST/GET host (discovery).
+        - Otherwise: only POST/GET matching one of these host suffixes are written to proxy_capture.jsonl.
         """
 
         defaults = ["aplus.gmarket.co.kr", "aplus.gmarket.com"]
@@ -476,12 +476,12 @@ class AppiumRuntime:
         )
         if self.capture_domains:
             logger.info(
-                "mitm_capture_addon: saving POST payloads only for hosts matching | %s",
+                "mitm_capture_addon: saving POST/GET payloads for hosts matching | %s",
                 ", ".join(self.capture_domains),
             )
         else:
             logger.info(
-                "mitm_capture_addon: capture_domains empty — saving POST payloads for all hosts "
+                "mitm_capture_addon: capture_domains empty — saving POST/GET payloads for all hosts "
                 "(set proxy.capture_domains after discovery)."
             )
         env = os.environ.copy()
@@ -530,7 +530,7 @@ class AppiumRuntime:
             ]
         )
 
-        # mitmdump's Dumper addon: default log shows every HTTP exchange. Limit to POST only unless overridden.
+        # mitmdump's Dumper addon: default log shows every HTTP exchange. Optionally limit to POST+GET.
         dumper_filter_notes = "none"
         dumper_override = self.proxy_config.get("mitmdumpDumperFilter")
         if isinstance(dumper_override, str) and dumper_override.strip():
@@ -538,8 +538,8 @@ class AppiumRuntime:
             cmd.extend(["--set", f"dumper_filter={df}"])
             dumper_filter_notes = df
         elif _as_bool(self.proxy_config.get("mitmdumpPostOnlyLogs"), default=False):
-            cmd.extend(["--set", "dumper_filter=~m post"])
-            dumper_filter_notes = "~m post"
+            cmd.extend(["--set", "dumper_filter=~m post | ~m get"])
+            dumper_filter_notes = "~m post | ~m get"
 
         self._proxy_log_fp = mitm_log_path.open("a", encoding="utf-8")
         self._proxy_log_fp.write(

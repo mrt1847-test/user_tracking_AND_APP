@@ -33,7 +33,7 @@ def _matches_capture_domain(hostname: str) -> bool:
 
 
 def request(flow: http.HTTPFlow) -> None:
-    if flow.request.method.upper() != "POST":
+    if flow.request.method.upper() not in ("POST", "GET"):
         return
     if CAPTURE_DOMAINS and not _matches_capture_domain(flow.request.host):
         return

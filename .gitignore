@@ -28,7 +28,7 @@ Pipfile.lock
 
 # netrc
 .netrc
-json/
+
 state.json
 
 python-link-test-380006-2868d392d217.json

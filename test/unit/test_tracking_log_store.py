@@ -41,6 +41,22 @@ def test_filters_module_exposure_by_spm() -> None:
     assert logs[0]["type"] == "Module Exposure"
 
 
+def test_get_request_parses_query_string_as_payload() -> None:
+    store = TrackingLogStore(source_path="does-not-exist.jsonl")
+    store.record_request(
+        url="https://aplus.gmarket.co.kr/product.click.event?_p_prod=99999",
+        method="GET",
+        post_data=None,
+        timestamp=time.time(),
+    )
+
+    logs = store.get_product_click_logs_by_goodscode("99999")
+
+    assert len(logs) == 1
+    assert logs[0]["method"] == "GET"
+    assert logs[0]["type"] == "Product Click"
+
+
 def test_scenario_markers_only_expose_logs_between_start_and_stop(tmp_path: Path) -> None:
     capture_file = tmp_path / "capture.jsonl"
     store = TrackingLogStore(source_path=str(capture_file))
