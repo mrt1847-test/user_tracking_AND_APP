@@ -116,98 +116,6 @@ def _make_mobile_session(driver) -> MobileWebSession:
     )
 
 
-# ------------------------
-# :여섯: BDD context fixture (각 시나리오마다 독립적으로 생성)
-# ------------------------
-def _perform_appium_login_mweb_legacy(browser_session: MobileWebSession) -> None:
-    from utils.credentials import MemberType, get_credentials
-    from utils.urls import base_url
-
-    page = browser_session.page
-    credentials = get_credentials(MemberType.NORMAL)
-    page.goto(base_url(), wait_until="domcontentloaded")
-    try:
-        page.locator(".button__popup-close[aria-label='레이어 닫기']").click(timeout=3000)
-    except Exception:
-        pass
-
-    try:
-        if page.locator("text='로그아웃'").count() > 0:
-            return
-    except Exception:
-        pass
-
-    page.locator("a.link.link__myg").click(timeout=10000)
-    page.fill("#typeMemberInputId", credentials["username"])
-    page.fill("#typeMemberInputPassword", credentials["password"])
-    page.click("#btn_memberLogin")
-    page.wait_for_selector("text='로그아웃'", timeout=30000)
-
-def _perform_appium_login(browser_session: MobileWebSession) -> None:
-    from utils.credentials import MemberType, get_credentials
-
-    login_cfg = dict(app_config.get("app_login") or app_config.get("login") or {})
-    if not _config_bool(login_cfg.get("enabled"), default=True):
-        logger.info("Appium session login is disabled by config.")
-        return
-
-    appium_cfg = dict(app_config.get("appium") or {})
-    page = browser_session.page
-    credentials = get_credentials(MemberType.NORMAL)
-
-    try:
-        browser_session.reset()
-        webview_ready = browser_session.switch_to_webview(
-            timeout_ms=int(appium_cfg.get("webviewConnectTimeout", 15000)),
-            push=False,
-        )
-        if not webview_ready and _config_bool(login_cfg.get("require_webview"), default=True):
-            raise RuntimeError(
-                "The APK launched, but no WEBVIEW context was exposed. "
-                "Existing page objects use CSS selectors, so either enable the app WebView "
-                "debug context or add native Appium selectors for the login flow."
-            )
-
-        for popup_selector in login_cfg.get("popup_close_selectors", []):
-            try:
-                page.locator(str(popup_selector)).click(timeout=3000, force=True)
-            except Exception:
-                pass
-
-        success_selector = login_cfg.get("success_selector", "text=로그아웃")
-        if success_selector:
-            try:
-                if page.locator(str(success_selector)).count() > 0:
-                    logger.info("Appium session login skipped: already logged in.")
-                    return
-            except Exception:
-                pass
-
-        entry_selector = login_cfg.get("entry_selector", "a.link.link__myg")
-        username_selector = login_cfg.get("username_selector", "#typeMemberInputId")
-        password_selector = login_cfg.get("password_selector", "#typeMemberInputPassword")
-        submit_selector = login_cfg.get("submit_selector", "#btn_memberLogin")
-
-        if entry_selector:
-            try:
-                page.locator(str(entry_selector)).click(timeout=10000)
-            except Exception:
-                logger.info("Login entry selector was not clickable; trying login form directly.")
-
-        page.fill(str(username_selector), credentials["username"], timeout=15000)
-        page.fill(str(password_selector), credentials["password"], timeout=15000)
-        page.click(str(submit_selector), timeout=15000)
-        if success_selector:
-            page.wait_for_selector(str(success_selector), timeout=30000)
-        logger.info("Appium session login completed.")
-    except Exception as exc:
-        raise RuntimeError(
-            "Appium APK login failed. The native app was launched, but the configured "
-            "login selectors did not complete successfully. Check app_login selectors "
-            "or switch this flow to native Appium locators."
-        ) from exc
-
-
 @pytest.fixture(scope="session")
 def appium_runtime():
     _require_appium_backend()
@@ -222,7 +130,6 @@ def appium_driver(appium_runtime):
     driver = None
     try:
         driver = appium_runtime.bootstrap()
-        _perform_appium_login(_make_mobile_session(driver))
         yield driver
     finally:
         appium_runtime.shutdown(driver)

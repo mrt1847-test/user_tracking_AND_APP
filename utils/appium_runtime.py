@@ -1,13 +1,17 @@
+import logging
 import os
 import platform
 import shlex
 import shutil
 import socket
 import subprocess
+import sys
 import time
 from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import urlparse
+
+logger = logging.getLogger(__name__)
 
 
 class AppiumRuntimeError(RuntimeError):
@@ -44,6 +48,7 @@ class AppiumRuntime:
         self.proxy_config = dict(app_config.get("proxy") or {})
         self.capture_file = self.project_root / "json" / "proxy_capture.jsonl"
         self._proxy_process: subprocess.Popen[str] | None = None
+        self._proxy_log_fp: Optional[Any] = None
         self._appium_process: subprocess.Popen[str] | None = None
         self._appium_log_fp: Optional[Any] = None
 
@@ -66,11 +71,28 @@ class AppiumRuntime:
 
     @property
     def capture_domains(self) -> list[str]:
-        raw = self.proxy_config.get("capture_domains") or [
-            "aplus.gmarket.co.kr",
-            "aplus.gmarket.com",
-        ]
-        return [str(item) for item in raw]
+        """Hosts for TRACKING_CAPTURE_DOMAINS (mitm_capture_addon POST filter).
+
+        - Key omitted from config: treat as defaults (backward compatible).
+        - Empty list [], or list of blanks only: capture every POST host (discovery).
+        - Otherwise: only POSTs matching one of these host suffixes are written to proxy_capture.jsonl.
+        """
+
+        defaults = ["aplus.gmarket.co.kr", "aplus.gmarket.com"]
+
+        proxy = self.proxy_config
+        if "capture_domains" not in proxy:
+            return list(defaults)
+
+        raw = proxy.get("capture_domains")
+        if raw is None:
+            return list(defaults)
+
+        cleaned = [str(item).strip() for item in raw if str(item).strip()]
+        if not cleaned:
+            return []
+
+        return cleaned
 
     @property
     def app_package(self) -> str:
@@ -169,6 +191,184 @@ class AppiumRuntime:
         cmd.extend(args)
         return self._run(*cmd, check=check, timeout=timeout)
 
+    def _adb_global(
+        self,
+        *args: str,
+        check: bool = True,
+        timeout: int = 90,
+    ) -> subprocess.CompletedProcess[str]:
+        """Run adb without `-s`; for start-server / devices / reconnect."""
+
+        adb_path = self._require_binary("adb")
+        return self._run(adb_path, *args, check=check, timeout=timeout)
+
+    @staticmethod
+    def _parse_adb_devices(stdout: str) -> dict[str, str]:
+        mapping: dict[str, str] = {}
+        for line in stdout.strip().splitlines()[1:]:
+            parts = line.split()
+            if len(parts) >= 2:
+                mapping[parts[0]] = parts[1]
+        return mapping
+
+    def prepare_adb_session(self) -> None:
+        if _as_bool(self.appium_config.get("restartAdbServer"), default=False):
+            self._adb_global("kill-server", check=False, timeout=15)
+            time.sleep(0.3)
+
+        self._adb_global("start-server", check=False, timeout=60)
+        time.sleep(0.3)
+
+        listen_host = str(self.appium_config.get("adbListenHost") or "127.0.0.1")
+        adb_port_cfg = self.appium_config.get("adbPort")
+        port = (
+            int(adb_port_cfg)
+            if adb_port_cfg is not None and str(adb_port_cfg).strip().isdigit()
+            else 5037
+        )
+        try:
+            self._wait_for_port(listen_host, port, timeout_s=45.0)
+        except AppiumRuntimeError:
+            raise AppiumRuntimeError(
+                f"ADB server did not begin listening on {listen_host}:{port}. "
+                "Close duplicate adb/SDK tools, kill stray adb.exe, then retry."
+            ) from None
+
+        self._wait_until_device_ready()
+
+    def _wait_until_device_ready(self, timeout_s: float = 150.0) -> None:
+        udid = self.appium_config.get("udid") or self.appium_config.get("deviceSerial")
+        udid_str = str(udid).strip() if udid not in (None, "") else None
+
+        deadline = time.monotonic() + timeout_s
+        reconnect_budget = 2
+
+        while time.monotonic() < deadline:
+            proc = self._adb_global("devices", timeout=30)
+            table = self._parse_adb_devices(proc.stdout)
+
+            if udid_str:
+                state = table.get(udid_str)
+                if state == "device":
+                    return
+                if state == "offline" and reconnect_budget > 0:
+                    self._adb_global("reconnect", check=False, timeout=45)
+                    reconnect_budget -= 1
+                    time.sleep(2.0)
+                    continue
+                if state == "offline":
+                    time.sleep(2.0)
+                    continue
+
+            emulator_ready = [
+                serial for serial, st in table.items() if serial.startswith("emulator-") and st == "device"
+            ]
+            if emulator_ready:
+                return
+            any_ready = [serial for serial, st in table.items() if st == "device"]
+            if len(any_ready) == 1:
+                return
+            if len(any_ready) > 1 and not udid_str:
+                raise AppiumRuntimeError(
+                    "Multiple adb devices reported 'device'; set appium.udid (or deviceSerial) "
+                    f"in config.json. Found: {', '.join(any_ready)}"
+                )
+
+            time.sleep(2.0)
+
+        raise AppiumRuntimeError(
+            "Timed out waiting for adb device to leave offline/unauthorized "
+            "(set appium.udid if several devices/emulators run at once)."
+        )
+
+    def _maybe_spawn_mitmdump_tail_window(self, log_path: Path) -> None:
+        """Open another console tailing logs/mitmdump.log (same file as subprocess stdout)."""
+
+        if not _as_bool(self.proxy_config.get("openMitmdumpTailWindow"), default=False):
+            return
+        if _as_bool(os.environ.get("CI"), default=False):
+            logger.info(
+                "openMitmdumpTailWindow is set but skipped under CI (no extra window)."
+            )
+            return
+
+        lp = log_path.resolve()
+        tail_lines = self.proxy_config.get("mitmdumpTailLines")
+        try:
+            n = int(tail_lines) if tail_lines is not None else 120
+        except (TypeError, ValueError):
+            n = 120
+        n = max(5, min(n, 2000))
+
+        try:
+            system = platform.system().lower()
+
+            if "windows" in system:
+                escaped = "'" + str(lp).replace("'", "''") + "'"
+                ps_cmd = (
+                    "$OutputEncoding=[Console]::OutputEncoding="
+                    "[System.Text.UTF8Encoding]::UTF8; "
+                    "Write-Host 'mitmdump -> ' -NoNewline; Write-Host "
+                    f"{escaped} -ForegroundColor Cyan; "
+                    "Write-Host 'Live tail (Get-Content -Wait). Close this window when done.'; "
+                    f"Get-Content -LiteralPath {escaped} -Wait -Tail {n}"
+                )
+                creationflags = (
+                    subprocess.CREATE_NEW_CONSOLE
+                    if sys.platform == "win32"
+                    else 0  # pragma: no cover
+                )
+                subprocess.Popen(
+                    ["powershell.exe", "-NoProfile", "-NoExit", "-Command", ps_cmd],
+                    cwd=str(self.project_root),
+                    creationflags=creationflags,
+                )
+            elif "darwin" in system:
+                inner_shell = f"exec tail -n {n} -f {shlex.quote(str(lp))}"
+                ascr_esc = inner_shell.replace("\\", "\\\\").replace('"', '\\"')
+                script = f'tell application "Terminal" to do script "{ascr_esc}"'
+                subprocess.Popen(["osascript", "-e", script])
+            else:
+                log_s = str(lp)
+                bash_lc = f"tail -n {n} -f {shlex.quote(log_s)}; exec bash"
+                candidates: list[list[str]] = []
+                for alt in ("gnome-terminal", "konsole", "xfce4-terminal"):
+                    exe = shutil.which(alt)
+                    if not exe:
+                        continue
+                    if alt == "gnome-terminal":
+                        candidates.append([exe, "--", "bash", "-lc", bash_lc])
+                    elif alt == "konsole":
+                        candidates.append([exe, "-e", "bash", "-lc", bash_lc])
+                    else:
+                        candidates.append([exe, "-e", "bash", "-lc", bash_lc])
+
+                xe = shutil.which("x-terminal-emulator")
+                if xe:
+                    candidates.append([xe, "-e", "bash", "-lc", bash_lc])
+
+                spawned = False
+                for cmd in candidates:
+                    try:
+                        subprocess.Popen(cmd, cwd=str(self.project_root))
+                        spawned = True
+                        break
+                    except OSError:
+                        continue
+                if not spawned:
+                    logger.warning(
+                        "Could not spawn a tail terminal; run manually: tail -n 50 -f %s",
+                        log_s,
+                    )
+                    return
+
+            logger.info(
+                "Opened a separate console for live mitmdump log tail; file is still %s",
+                lp,
+            )
+        except OSError as exc:
+            logger.warning("mitmdump tail window failed (ignored): %s", exc)
+
     def _wait_for_port(self, host: str, port: int, timeout_s: float = 15.0) -> None:
         deadline = time.monotonic() + timeout_s
         while time.monotonic() < deadline:
@@ -196,6 +396,13 @@ class AppiumRuntime:
     def ensure_appium_server(self) -> None:
         host, port = self._server_host_port()
         if self._is_port_open(host, port):
+            logger.info(
+                "Appium server already listens on http://%s:%s "
+                "(not started by this process - no new lines in logs/appium_server.log). "
+                "Use the terminal that launched Appium, or set manage_server:true once.",
+                host,
+                port,
+            )
             return
 
         if not _as_bool(self.appium_config.get("manage_server"), default=True):
@@ -224,7 +431,12 @@ class AppiumRuntime:
 
         log_dir = self.project_root / "logs"
         log_dir.mkdir(parents=True, exist_ok=True)
-        self._appium_log_fp = (log_dir / "appium_server.log").open("a", encoding="utf-8")
+        appium_log_path = log_dir / "appium_server.log"
+        logger.info(
+            "Starting Appium subprocess; tail %s while tests run.",
+            appium_log_path.resolve(),
+        )
+        self._appium_log_fp = appium_log_path.open("a", encoding="utf-8")
         self._appium_process = subprocess.Popen(
             cmd,
             cwd=str(self.project_root),
@@ -258,43 +470,116 @@ class AppiumRuntime:
 
         self.capture_file.parent.mkdir(parents=True, exist_ok=True)
         self.capture_file.write_text("", encoding="utf-8")
+        logger.info(
+            "NetworkTracking (mitm) JSON Lines output: %s",
+            self.capture_file.resolve(),
+        )
+        if self.capture_domains:
+            logger.info(
+                "mitm_capture_addon: saving POST payloads only for hosts matching | %s",
+                ", ".join(self.capture_domains),
+            )
+        else:
+            logger.info(
+                "mitm_capture_addon: capture_domains empty — saving POST payloads for all hosts "
+                "(set proxy.capture_domains after discovery)."
+            )
         env = os.environ.copy()
         env["TRACKING_PROXY_OUTPUT"] = str(self.capture_file)
         env["TRACKING_CAPTURE_DOMAINS"] = ",".join(self.capture_domains)
+        if _as_bool(self.proxy_config.get("logEachCapture"), default=False):
+            env["TRACKING_CAPTURE_LOG"] = "1"
+
+        log_dir = self.project_root / "logs"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        mitm_log_path = log_dir / "mitmdump.log"
 
         addon_path = self.project_root / "utils" / "mitm_capture_addon.py"
-        cmd = [
-            "mitmdump",
-            "-q",
-            "-s",
-            str(addon_path),
-            "--listen-host",
-            self.proxy_host,
-            "--listen-port",
-            str(self.proxy_port),
-            "--set",
-            "block_global=false",
-        ]
+        cmd: list[str] = ["mitmdump"]
+
+        # With -q, mitmdump prints almost nothing to stdout; tail windows then only show our session header.
+        quiet_cfg = self.proxy_config.get("mitmdumpQuiet")
+        if quiet_cfg is None and _as_bool(
+            self.proxy_config.get("openMitmdumpTailWindow"), default=False
+        ):
+            quiet = False
+        else:
+            quiet = _as_bool(quiet_cfg, default=True)
+        if quiet:
+            cmd.append("-q")
+
+        verbosity_raw = self.proxy_config.get("mitmdumpVerbose")
+        try:
+            vc = int(verbosity_raw) if verbosity_raw is not None else 0
+        except (TypeError, ValueError):
+            vc = 0
+        vc = max(0, min(vc, 5))
+        for _ in range(vc):
+            cmd.extend(["-v"])
+
+        cmd.extend(
+            [
+                "-s",
+                str(addon_path),
+                "--listen-host",
+                self.proxy_host,
+                "--listen-port",
+                str(self.proxy_port),
+                "--set",
+                "block_global=false",
+            ]
+        )
+
+        # mitmdump's Dumper addon: default log shows every HTTP exchange. Limit to POST only unless overridden.
+        dumper_filter_notes = "none"
+        dumper_override = self.proxy_config.get("mitmdumpDumperFilter")
+        if isinstance(dumper_override, str) and dumper_override.strip():
+            df = dumper_override.strip()
+            cmd.extend(["--set", f"dumper_filter={df}"])
+            dumper_filter_notes = df
+        elif _as_bool(self.proxy_config.get("mitmdumpPostOnlyLogs"), default=False):
+            cmd.extend(["--set", "dumper_filter=~m post"])
+            dumper_filter_notes = "~m post"
+
+        self._proxy_log_fp = mitm_log_path.open("a", encoding="utf-8")
+        self._proxy_log_fp.write(
+            f"\n--- mitmdump start {time.strftime('%Y-%m-%d %H:%M:%S')} "
+            f"listen={self.proxy_host}:{self.proxy_port} quiet={quiet} verbosity={vc} "
+            f"dumper_filter={dumper_filter_notes} ---\n"
+        )
+        self._proxy_log_fp.flush()
+
+        logger.info(
+            "mitmdump process stdout/stderr appended to %s (`proxy.openMitmdumpTailWindow:true` opens a second window)",
+            mitm_log_path.resolve(),
+        )
+
         self._proxy_process = subprocess.Popen(
             cmd,
             cwd=str(self.project_root),
             env=env,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stdout=self._proxy_log_fp,
+            stderr=subprocess.STDOUT,
             text=True,
         )
         self._wait_for_port(self.proxy_host, self.proxy_port)
+        self._maybe_spawn_mitmdump_tail_window(mitm_log_path)
 
     def stop_proxy(self) -> None:
-        if not self._proxy_process:
-            return
-        if self._proxy_process.poll() is None:
-            self._proxy_process.terminate()
+        if self._proxy_process:
+            if self._proxy_process.poll() is None:
+                self._proxy_process.terminate()
+                try:
+                    self._proxy_process.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    self._proxy_process.kill()
+            self._proxy_process = None
+        if self._proxy_log_fp is not None:
             try:
-                self._proxy_process.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                self._proxy_process.kill()
-        self._proxy_process = None
+                self._proxy_log_fp.close()
+            except Exception:
+                pass
+            self._proxy_log_fp = None
 
     def configure_android_proxy(self) -> None:
         proxy_value = f"{self.proxy_device_host}:{self.proxy_port}"
@@ -446,6 +731,7 @@ class AppiumRuntime:
 
     def bootstrap(self) -> Any:
         self.validate_backend()
+        self.prepare_adb_session()
         self.start_proxy()
         self.install_mitm_certificate()
         self.configure_android_proxy()

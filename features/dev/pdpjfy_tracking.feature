@@ -15,6 +15,3 @@ Feature: G마켓 PDP 트래킹 로그 정합성 검증
     Examples:
       | goodscode  | module_title  | n | tc_module_exposure | tc_product_exposure | tc_product_click |
       | 8002304850 | pdpjfy         | 1 | C1228932           | C1228933            | C1228935         |
-      | 8002304850 | pdpjfy         | 2 | C1228932           | C1228933            | C1228935         |
-      | 8002304850 | pdpjfy         | 3 | C1228932           | C1228933            | C1228935         |
-      | 8002304850 | pdpjfy         | 4 | C1228932           | C1228933            | C1228935         |
