@@ -3,6 +3,7 @@ Base Page Object 클래스
 모든 Page Object의 기본이 되는 클래스
 """
 from utils.mobile_web_adapter import Page, Locator, expect
+from utils.h_ut_upload_timing import native_h_ut_poll_extra_s, pre_poll_native_h_ut_wait
 from typing import Any, Optional
 from urllib.parse import unquote, parse_qs, urlparse
 import logging
@@ -137,7 +138,10 @@ class BasePage:
             time.sleep(1)
             return False
 
-        deadline = time.monotonic() + timeout_s
+        pre_poll_native_h_ut_wait(self.page, tracker)
+        effective_timeout = timeout_s + native_h_ut_poll_extra_s(timeout_s)
+
+        deadline = time.monotonic() + effective_timeout
         while time.monotonic() < deadline:
             current = len(tracker.get_logs("Module Exposure"))
             if current > baseline_count:
@@ -152,7 +156,7 @@ class BasePage:
         logger.warning(
             "섹션 전환 후 %.0fs 안에 Module Exposure가 추가되지 않았습니다(기준 %d건). "
             "해당 탭이 General/Product Exposure만 쏘거나, 노출이 스크롤 이후일 수 있습니다.",
-            timeout_s,
+            effective_timeout,
             baseline_count,
         )
         return False
@@ -191,7 +195,10 @@ class BasePage:
             )
             return True
 
-        deadline = time.monotonic() + timeout_s
+        pre_poll_native_h_ut_wait(self.page, tracker)
+        effective_timeout = timeout_s + native_h_ut_poll_extra_s(timeout_s)
+
+        deadline = time.monotonic() + effective_timeout
         while time.monotonic() < deadline:
             current_pe = len(tracker.get_logs_by_goodscode(goodscode, "Product Exposure"))
             if current_pe > baseline_pe:
@@ -207,7 +214,7 @@ class BasePage:
         logger.warning(
             "상품 클릭 전 %.0fs 안에 goodscode=%s에 대한 Product Exposure가 수신되지 않았습니다(기준 %d건). "
             "트래킹 지연·미발화일 수 있습니다.",
-            timeout_s,
+            effective_timeout,
             goodscode,
             baseline_pe,
         )
@@ -239,6 +246,9 @@ class BasePage:
             time.sleep(1)
             return False
 
+        pre_poll_native_h_ut_wait(self.page, tracker)
+        effective_timeout = timeout_s + native_h_ut_poll_extra_s(timeout_s)
+
         def current_ge_count() -> int:
             if not spm:
                 return len(tracker.get_logs("General Exposure"))
@@ -252,7 +262,7 @@ class BasePage:
                 )
             return len(tracker.get_logs("General Exposure"))
 
-        deadline = time.monotonic() + timeout_s
+        deadline = time.monotonic() + effective_timeout
         while time.monotonic() < deadline:
             cur = current_ge_count()
             if cur > baseline_count:
@@ -268,7 +278,7 @@ class BasePage:
         logger.warning(
             "%.0fs 안에 General Exposure가 baseline 대비 증가하지 않았습니다 (baseline=%d, spm=%s). "
             "트래킹 지연·미발화 또는 SPM 불일치일 수 있습니다.",
-            timeout_s,
+            effective_timeout,
             baseline_count,
             spm,
         )

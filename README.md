@@ -382,6 +382,13 @@ TestRail 스위트 오버레이는 실행 경로에 `test_<스위트명>`이 포
 
 Google Sheets 연동에는 `config.json`의 `spreadsheet_id`와 서비스 계정 JSON 파일이 필요합니다. 현재 프로젝트 루트의 `python-link-test-380006-2868d392d217.json` 형식의 서비스 계정 파일을 사용하는 흐름입니다.
 
+### 네이티브 h-ut와 `json/` 산출
+
+Android 네이티브 트래킹은 로컬 큐에 쌓였다가 `h-ut.gmarket.co.kr/upload`로 gzip 배치 POST 됩니다. mitm은 **HTTP가 나간 뒤**만 캡처하므로, 아직 flush되지 않은 이벤트는 파일에 없습니다. `Then 모든 트래킹 로그를 JSON 파일로 저장함` 단계에서는 저장 직전 `sync_from_source()`로 `proxy_capture.jsonl`을 한 번 더 반영합니다.
+
+- **`tracking_all_*.json`**: 루트가 이벤트 배열입니다. 네이티브에서 온 항목은 기존 aplus POST와 같은 형태로 맞춰 두었고, 출처 메타는 항목에 **`h_ut_capture`**(예: `parent_request_id`, `upload_timestamp`, `event_index`)로 붙을 수 있습니다.
+- **`tracking_h_ut_pipeline_*.json`**: 같은 실행에서 h-ut JSONL 이벤트 줄 → 합성 aplus 적재 요약을 `h_ut_pipeline` 배열로 둡니다. `json_to_sheets.py`는 `tracking_all`만 대상으로 하므로, 시트 변환에는 넣지 않아도 됩니다.
+
 ### tracking_all JSON을 시트로 변환
 
 ```bash

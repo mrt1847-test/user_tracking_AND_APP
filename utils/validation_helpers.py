@@ -406,15 +406,16 @@ def _process_config_section(
         # exclude_fields에 포함된 필드는 제외
         if key in exclude_fields:
             continue
+        current_path = f"{parent_path}.{key}" if parent_path else key
         
         # utLogMap은 특별 처리 (재귀적으로 처리하되 필드명만 저장)
         if key == 'utLogMap' and isinstance(value, dict):
-            _process_config_section(value, event_type, goodscode, frontend_data, exclude_fields, expected, is_common, f"{parent_path}.{key}", is_utlogmap=True)
+            _process_config_section(value, event_type, goodscode, frontend_data, exclude_fields, expected, is_common, current_path, is_utlogmap=True)
             continue
         
         # 값이 딕셔너리인 경우 재귀 처리
         if isinstance(value, dict):
-            _process_config_section(value, event_type, goodscode, frontend_data, exclude_fields, expected, is_common, f"{parent_path}.{key}", is_utlogmap)
+            _process_config_section(value, event_type, goodscode, frontend_data, exclude_fields, expected, is_common, current_path, is_utlogmap)
         else:
             # 리프 노드: expected에 추가
             # utLogMap 내부 필드는 그대로 사용, 그 외는 key만 사용
@@ -434,7 +435,11 @@ def _process_config_section(
             # 값 처리 (placeholder 치환)
             processed_value = replace_placeholders(value, goodscode, frontend_data)
             
-            expected[field_name] = processed_value
+            expected[current_path] = {
+                "path": current_path,
+                "field": field_name,
+                "expected": processed_value,
+            }
 
 
 def _load_config() -> Dict[str, Any]:

@@ -1,0 +1,664 @@
+[
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_itemcarousel.dtitle",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014207"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_itemcarousel.dtitle",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_itemcarousel.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014207\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_itemcarousel.dtitle",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014207"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:81",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 81,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 80
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail6",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail6",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail6\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail6",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:82",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 82,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 81
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail5",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail5",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail5\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail5",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:83",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 83,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 82
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail4",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail4",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail4\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail4",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:84",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 84,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 83
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail3",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail3",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail3\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail3",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:85",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 85,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 84
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail2",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail2",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail2\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail2",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:86",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 86,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 85
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail1",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail1",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail1\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail1",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:87",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 87,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 86
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail0",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014512"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_shortcut.dthumbnail0",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail0\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_shortcut.dthumbnail0",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014512"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:88",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 88,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 87
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014510"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_widebanner.dtab0_banner33\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014510\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014510"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:89",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 89,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 88
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014548"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014548\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_campaign.dtitle",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014548"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:94",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 94,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 93
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014514"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014514\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_campaign.dtitle",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014514"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:99",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 99,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 98
+    }
+  },
+  {
+    "type": "General Exposure",
+    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
+    "payload": {
+      "_native_h_ut": true,
+      "expdata": [
+        {
+          "spm": "gmktapp.home.today_campaign.dactionbutton",
+          "exargs": {
+            "params-exp": {
+              "parsed": {
+                "gmkt_area_code": "200014514"
+              }
+            }
+          }
+        }
+      ],
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.home.today_campaign.dactionbutton",
+          "spm-cnt": "gmktapp.home",
+          "expdata": {
+            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dactionbutton\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014514\"}}}}]",
+            "parsed": [
+              {
+                "spm": "gmktapp.home.today_campaign.dactionbutton",
+                "exargs": {
+                  "params-exp": {
+                    "parsed": {
+                      "gmkt_area_code": "200014514"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:100",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 100,
+      "event_count": 150,
+      "pipe_event_path": "/General.Exposure.Event",
+      "pipe_record_index": 99
+    }
+  },
+  {
+    "type": "General Click",
+    "url": "https://aplus.gmarket.co.kr/general.click.event",
+    "payload": {
+      "_native_h_ut": true,
+      "decoded_gokey": {
+        "params": {
+          "spm": "gmktapp.pdp.searchpopup.dbestkeyword4",
+          "spm-cnt": "gmktapp.pdp"
+        }
+      }
+    },
+    "timestamp": 1778399984.5440104,
+    "method": "POST",
+    "h_ut_capture": {
+      "source": "mitm_h_ut_upload",
+      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
+      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:107",
+      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
+      "upload_timestamp": 1778399984.5440104,
+      "event_index": 107,
+      "event_count": 150,
+      "pipe_event_path": "/General.Click.Event",
+      "pipe_record_index": 106
+    }
+  }
+]

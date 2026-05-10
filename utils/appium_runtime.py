@@ -71,14 +71,21 @@ class AppiumRuntime:
 
     @property
     def capture_domains(self) -> list[str]:
-        """Hosts for TRACKING_CAPTURE_DOMAINS (mitm_capture_addon POST/GET filter).
+        """Hosts logged for mitm_capture (addon itself filters by URL rules).
 
-        - Key omitted from config: treat as defaults (backward compatible).
-        - Empty list [], or list of blanks only: capture every POST/GET host (discovery).
-        - Otherwise: only POST/GET matching one of these host suffixes are written to proxy_capture.jsonl.
+        - Key omitted from config: defaults to aplus + h-ut hosts.
+        - Empty list or blanks only: same defaults (no longer captures all hosts).
+        - Otherwise: listed host suffixes (informational; addon captures only
+          URLs containing aplus.gmarket.co.kr or POST/GET to h-ut.gmarket.co.kr/upload).
+
+        Native UT flush (optional, under ``proxy``):
+        - ``hUtUploadFlushWaitSeconds`` (default 35): initial wait before polling tracker
+          (logcat ~30s UploadMgr interval).
+        - ``hUtUploadPollExtraSeconds`` (default 12): extra seconds added to exposure wait
+          timeouts to catch back-to-back /upload batches in the same flush.
         """
 
-        defaults = ["aplus.gmarket.co.kr", "aplus.gmarket.com"]
+        defaults = ["aplus.gmarket.co.kr", "h-ut.gmarket.co.kr"]
 
         proxy = self.proxy_config
         if "capture_domains" not in proxy:
@@ -90,7 +97,7 @@ class AppiumRuntime:
 
         cleaned = [str(item).strip() for item in raw if str(item).strip()]
         if not cleaned:
-            return []
+            return list(defaults)
 
         return cleaned
 
@@ -474,16 +481,12 @@ class AppiumRuntime:
             "NetworkTracking (mitm) JSON Lines output: %s",
             self.capture_file.resolve(),
         )
-        if self.capture_domains:
-            logger.info(
-                "mitm_capture_addon: saving POST/GET payloads for hosts matching | %s",
-                ", ".join(self.capture_domains),
-            )
-        else:
-            logger.info(
-                "mitm_capture_addon: capture_domains empty — saving POST/GET payloads for all hosts "
-                "(set proxy.capture_domains after discovery)."
-            )
+        logger.info(
+            "mitm_capture_addon: only URLs containing aplus.gmarket.co.kr, "
+            "or POST/GET to h-ut.gmarket.co.kr/upload (decoded to one JSONL row per event). "
+            "proxy.capture_domains (informational): %s",
+            ", ".join(self.capture_domains) if self.capture_domains else "(defaults)",
+        )
         env = os.environ.copy()
         env["TRACKING_PROXY_OUTPUT"] = str(self.capture_file)
         env["TRACKING_CAPTURE_DOMAINS"] = ",".join(self.capture_domains)

@@ -79,8 +79,11 @@
         "logEachCapture": true,
         "install_ca": false,
         "capture_domains": [
-
-        ]
+            "aplus.gmarket.co.kr",
+            "h-ut.gmarket.co.kr"
+        ],
+        "hUtUploadFlushWaitSeconds": 35,
+        "hUtUploadPollExtraSeconds": 12
     },
     "spreadsheet_id": "1iv_ok0kTzWWPhzyRRbpEEnH3DPGE7VSJg2mmdlRPD78"
 }

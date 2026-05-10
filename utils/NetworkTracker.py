@@ -9,6 +9,7 @@ from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 from utils.mitmproxy_collector import MitmproxyCollector
 from utils.tracker_backend import TrackerBackend
+from utils.h_ut_log_ingest import build_synthetic_aplus_ingest
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -57,6 +58,8 @@ class TrackingLogStore:
         self._scenario_stop: Optional[int] = None
         self.domain_pattern = re.compile(r'aplus\.gmarket\.co(\.kr|m)')
         self._seen_request_ids: set[str] = set()
+        self._h_ut_pipeline: List[Dict[str, Any]] = []
+
     def clone(self, start: Optional[int] = None, stop: Optional[int] = None) -> "TrackingLogStore":
         sliced = self._active_logs()[slice(start, stop)]
         clone = TrackingLogStore(source_path=str(self.source_path), logs=sliced)
@@ -67,20 +70,76 @@ class TrackingLogStore:
             request_id = str(raw.get("request_id") or "").strip()
             if request_id and request_id in self._seen_request_ids:
                 continue
-            self.record_request(
-                url=str(raw.get('url') or ''),
-                method=str(raw.get('method') or 'POST'),
-                post_data=raw.get('post_data'),
-                timestamp=float(raw.get('timestamp') or time.time()),
-            )
+
+            url = str(raw.get("url") or "")
+            kind = str(raw.get("capture_kind") or "")
+            if kind == "h_ut_upload" or "h-ut.gmarket.co.kr" in url:
+                self._ingest_decoded_h_ut_capture_line(raw)
+            else:
+                self.record_request(
+                    url=url,
+                    method=str(raw.get("method") or "POST"),
+                    post_data=raw.get("post_data"),
+                    timestamp=float(raw.get("timestamp") or time.time()),
+                )
             if request_id:
                 self._seen_request_ids.add(request_id)
+
+    def _ingest_decoded_h_ut_capture_line(self, raw: Dict[str, Any]) -> None:
+        """mitm 이벤트 단위 JSONL(h_ut_upload) → aplus 형태로 record_request."""
+        pd = raw.get("post_data")
+        if not isinstance(pd, str) or not pd.strip():
+            return
+        try:
+            ev = json.loads(pd)
+        except json.JSONDecodeError:
+            logger.debug("h-ut capture line: post_data is not JSON, skip ingest")
+            return
+        if not isinstance(ev, dict):
+            return
+        if ev.get("_capture_subtype") == "h_ut_session_prefix":
+            return
+        built = build_synthetic_aplus_ingest(ev)
+        if not built:
+            return
+        surl, smethod, payload = built
+        try:
+            line = json.dumps(payload, ensure_ascii=False)
+        except (TypeError, ValueError):
+            return
+        upload_ts = float(raw.get("timestamp") or time.time())
+        h_ut_meta = {
+            "source": "mitm_h_ut_upload",
+            "h_ut_upload_url": str(raw.get("url") or ""),
+            "mitm_line_request_id": str(raw.get("request_id") or ""),
+            "parent_request_id": str(raw.get("parent_request_id") or ""),
+            "upload_timestamp": upload_ts,
+            "event_index": raw.get("event_index"),
+            "event_count": raw.get("event_count"),
+            "pipe_event_path": ev.get("event_path"),
+            "pipe_record_index": ev.get("record_index"),
+        }
+        self._h_ut_pipeline.append(
+            {
+                **h_ut_meta,
+                "synthetic_aplus_url": surl,
+            }
+        )
+        self.record_request(
+            url=surl,
+            method=smethod,
+            post_data=line,
+            timestamp=upload_ts,
+            capture_meta=h_ut_meta,
+        )
+
     def record_request(
         self,
         url: str,
         method: str,
         post_data: Optional[str],
         timestamp: Optional[float] = None,
+        capture_meta: Optional[Dict[str, Any]] = None,
     ) -> None:
         if not url or not self.domain_pattern.search(url):
             return
@@ -97,15 +156,18 @@ class TrackingLogStore:
         else:
             parsed_payload = self._parse_payload(post_data)
         request_type = self._classify_request_type(url, parsed_payload)
-        log_entry = {
+        log_entry: Dict[str, Any] = {
             'type': request_type,
             'url': url,
             'payload': parsed_payload,
             'timestamp': timestamp if timestamp is not None else time.time(),
             'method': method,
         }
+        if capture_meta:
+            log_entry['h_ut_capture'] = capture_meta
         self.logs.append(log_entry)
         logger.info('%s request captured: %s', request_type, url)
+
     def _active_logs(self) -> List[Dict[str, Any]]:
         stop = self._scenario_stop if self._scenario_stop is not None else len(self.logs)
         return self.logs[self._scenario_start:stop]
@@ -587,16 +649,19 @@ class TrackingLogStore:
             self.record_request(url=url, method=method, post_data=post_data)
         except Exception as e:
             logger.error('request handling failed: %s', e, exc_info=True)
+
     def start(self):
         """Mark the current end of the proxy-backed log stream as the scenario start."""
         self.sync_from_source()
         self.is_tracking = True
         self._scenario_start = len(self.logs)
         self._scenario_stop = None
+        self._h_ut_pipeline.clear()
         logger.info('tracking start marker set at index=%d', self._scenario_start)
     def _on_new_page(self, page: Any):
         del page
         return
+
     def stop(self):
         """Freeze the scenario stop marker without tearing down the shared proxy runtime."""
         if not self.is_tracking:
@@ -613,6 +678,7 @@ class TrackingLogStore:
         if request_type:
             return [log for log in active_logs if log['type'] == request_type]
         return active_logs.copy()
+
     def get_pv_logs(self) -> List[Dict[str, Any]]:
         """
         PV 타입 로그만 반환 (PDP PV 제외)
@@ -1162,6 +1228,28 @@ class TrackingLogStore:
         for log in logs:
             filtered_log = copy.deepcopy(log)
             payload = filtered_log.get('payload', {})
+            if isinstance(payload, dict) and payload.get('_native_h_ut'):
+                h_ut = payload.get('h_ut', {})
+                kv = h_ut.get('kv', {}) if isinstance(h_ut, dict) else {}
+                utlogmap = h_ut.get('utLogMap', {}) if isinstance(h_ut, dict) else {}
+                parsed_utlogmap = utlogmap.get('parsed', {}) if isinstance(utlogmap, dict) else {}
+                item_spm = kv.get('spm') if isinstance(kv, dict) else None
+                item_goodscode = None
+                if isinstance(kv, dict):
+                    item_goodscode = kv.get('_p_prod')
+                if not item_goodscode and isinstance(parsed_utlogmap, dict):
+                    item_goodscode = parsed_utlogmap.get('x_object_id')
+                total_items += 1
+                if (
+                    item_spm
+                    and self._check_spm_match(str(item_spm), spm)
+                    and item_goodscode
+                    and str(item_goodscode) == str(goodscode)
+                ):
+                    filtered_logs.append(filtered_log)
+                    matched_items += 1
+                continue
+
             decoded_gokey = payload.get('decoded_gokey', {}) or {}
             params = decoded_gokey.get('params', {}) if isinstance(decoded_gokey, dict) else {}
             expdata = params.get('expdata', {}) if isinstance(params, dict) else {}
@@ -1212,6 +1300,8 @@ class TrackingLogStore:
                                                 utlogmap_parsed = utlogmap.get('parsed', {})
                                                 if isinstance(utlogmap_parsed, dict) and 'x_object_id' in utlogmap_parsed:
                                                     item_goodscode = str(utlogmap_parsed['x_object_id'])
+                                            elif isinstance(utlogmap, dict) and 'x_object_id' in utlogmap:
+                                                item_goodscode = str(utlogmap['x_object_id'])
 
                         # 3) goodscode가 타겟과 일치하는 항목만 포함 (SPM 이미 매칭됨)
                         if item_goodscode == goodscode:
@@ -1249,6 +1339,16 @@ class TrackingLogStore:
         for log in logs:
             filtered_log = copy.deepcopy(log)
             payload = filtered_log.get('payload', {})
+            if isinstance(payload, dict) and payload.get('_native_h_ut'):
+                h_ut = payload.get('h_ut', {})
+                kv = h_ut.get('kv', {}) if isinstance(h_ut, dict) else {}
+                item_spm = kv.get('spm') if isinstance(kv, dict) else None
+                total_items += 1
+                if item_spm and self._check_spm_match(str(item_spm), spm):
+                    filtered_logs.append(filtered_log)
+                    matched_items += 1
+                continue
+
             decoded_gokey = payload.get('decoded_gokey', {}) or {}
             params = decoded_gokey.get('params', {}) if isinstance(decoded_gokey, dict) else {}
             expdata = params.get('expdata', {}) if isinstance(params, dict) else {}
@@ -1411,7 +1511,7 @@ class TrackingLogStore:
         
         return params
     
-    def validate_payload(self, log: Dict[str, Any], expected_data: Dict[str, Any], goodscode: Optional[str] = None, event_type: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
+    def _validate_payload_legacy(self, log: Dict[str, Any], expected_data: Dict[str, Any], goodscode: Optional[str] = None, event_type: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
         """
         로그의 payload 정합성 검증 (재귀적 탐색 방식)
         
@@ -1695,12 +1795,272 @@ class TrackingLogStore:
         
         return True, passed_fields
     
+    def validate_payload(self, log: Dict[str, Any], expected_data: Dict[str, Any], goodscode: Optional[str] = None, event_type: Optional[str] = None) -> Tuple[bool, Dict[str, Any]]:
+        """Validate one tracking payload using schema paths first, recursive key lookup second."""
+        def find_value_recursive(obj: Any, target_key: str, visited: Optional[set] = None) -> Optional[Any]:
+            if visited is None:
+                visited = set()
+            if isinstance(obj, (dict, list)):
+                obj_id = id(obj)
+                if obj_id in visited:
+                    return None
+                visited.add(obj_id)
+
+            array_index_match = re.match(r'^(.+)\[(\d+)\]$', target_key)
+            if array_index_match:
+                base_key, index_str = array_index_match.group(1), array_index_match.group(2)
+                idx = int(index_str)
+                base_value = find_value_recursive(obj, base_key, visited)
+                if isinstance(base_value, list) and 0 <= idx < len(base_value):
+                    return base_value[idx]
+
+            if isinstance(obj, dict):
+                if target_key in obj:
+                    return obj[target_key]
+                if 'parsed' in obj and isinstance(obj['parsed'], (dict, list)):
+                    result = find_value_recursive(obj['parsed'], target_key, visited)
+                    if result is not None:
+                        return result
+                for value in obj.values():
+                    if isinstance(value, str) and value.strip().startswith(('{', '[')):
+                        try:
+                            parsed = json.loads(value)
+                            result = find_value_recursive(parsed, target_key, visited)
+                            if result is not None:
+                                return result
+                        except (json.JSONDecodeError, TypeError):
+                            pass
+                    result = find_value_recursive(value, target_key, visited)
+                    if result is not None:
+                        return result
+            elif isinstance(obj, list):
+                for item in obj:
+                    result = find_value_recursive(item, target_key, visited)
+                    if result is not None:
+                        return result
+
+            if isinstance(obj, (dict, list)):
+                visited.discard(id(obj))
+            return None
+
+        def navigate_path(obj: Any, path: str) -> Optional[Any]:
+            if obj is None or not path:
+                return None
+            cur = obj
+            parts = path.split(".")
+            i = 0
+            while i < len(parts):
+                part = parts[i]
+                if isinstance(cur, dict) and part in cur:
+                    cur = cur[part]
+                    i += 1
+                    continue
+                if isinstance(cur, dict) and isinstance(cur.get("parsed"), (dict, list)):
+                    cur = cur["parsed"]
+                    continue
+                return None
+            return cur
+
+        def utlogmap_x_object_id(utlogmap: Any) -> Optional[Any]:
+            if not isinstance(utlogmap, dict):
+                return None
+            parsed = utlogmap.get("parsed")
+            if isinstance(parsed, dict) and parsed.get("x_object_id"):
+                return parsed.get("x_object_id")
+            return utlogmap.get("x_object_id")
+
+        def product_exposure_slots(payload_obj: Dict[str, Any]) -> List[Dict[str, Any]]:
+            if payload_obj.get("_native_h_ut"):
+                h_ut = payload_obj.get("h_ut", {})
+                if isinstance(h_ut, dict):
+                    kv = h_ut.get("kv", {})
+                    slot = dict(kv) if isinstance(kv, dict) else {}
+                    utlogmap = h_ut.get("utLogMap")
+                    if isinstance(utlogmap, dict):
+                        parsed = utlogmap.get("parsed")
+                        if isinstance(parsed, dict):
+                            slot["utLogMap"] = parsed
+                    if slot:
+                        return [slot]
+                return []
+
+            decoded = payload_obj.get("decoded_gokey", {})
+            params = decoded.get("params", {}) if isinstance(decoded, dict) else {}
+            expdata = params.get("expdata", {}) if isinstance(params, dict) else {}
+            if (not isinstance(expdata, dict) or "parsed" not in expdata) and payload_obj.get("expdata"):
+                raw_exp = payload_obj.get("expdata")
+                if isinstance(raw_exp, str):
+                    parsed_fallback = self._decode_expdata(raw_exp) or []
+                elif isinstance(raw_exp, list):
+                    parsed_fallback = raw_exp
+                else:
+                    parsed_fallback = []
+                expdata = {"parsed": parsed_fallback}
+            parsed_list = expdata.get("parsed", []) if isinstance(expdata, dict) else []
+            out: List[Dict[str, Any]] = []
+            if isinstance(parsed_list, list):
+                for item in parsed_list:
+                    if not isinstance(item, dict):
+                        continue
+                    exargs = item.get("exargs", {})
+                    params_exp = exargs.get("params-exp", {}) if isinstance(exargs, dict) else {}
+                    parsed = params_exp.get("parsed", {}) if isinstance(params_exp, dict) else {}
+                    if isinstance(parsed, dict):
+                        slot = dict(parsed)
+                        if item.get("spm") and "spm" not in slot:
+                            slot["spm"] = item.get("spm")
+                        out.append(slot)
+            return out
+
+        def matched_product_exposure_slot(payload_obj: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+            if event_type != 'Product Exposure' or not goodscode:
+                return None
+            for slot in product_exposure_slots(payload_obj):
+                item_goodscode = slot.get("_p_prod") or utlogmap_x_object_id(slot.get("utLogMap"))
+                if item_goodscode and str(item_goodscode) == str(goodscode):
+                    return slot
+            return None
+
+        def normalize_expected_spec(spec_key: str, spec_value: Any) -> Tuple[str, str, Any]:
+            if isinstance(spec_value, dict) and {"path", "field", "expected"}.issubset(spec_value.keys()):
+                return str(spec_value["path"]), str(spec_value["field"]), spec_value["expected"]
+            return spec_key, spec_key.split(".")[-1], spec_value
+
+        payload = log.get('payload')
+        if payload is None:
+            raise AssertionError(f"Log payload is missing. URL: {log.get('url')}")
+        if isinstance(payload, str):
+            raise AssertionError(f"Payload is not JSON. URL: {log.get('url')}, Payload: {payload[:100]}...")
+        if not isinstance(payload, dict):
+            raise AssertionError(f"Payload is not a dict. URL: {log.get('url')}, type={type(payload)}")
+
+        decoded_gokey = payload.get('decoded_gokey', {})
+        params = decoded_gokey.get('params', {}) if isinstance(decoded_gokey, dict) else {}
+        h_ut = payload.get('h_ut', {}) if isinstance(payload.get('h_ut'), dict) else {}
+        h_ut_kv = h_ut.get('kv', {}) if isinstance(h_ut.get('kv'), dict) else {}
+        h_ut_utlogmap = h_ut.get('utLogMap', {}) if isinstance(h_ut.get('utLogMap'), dict) else {}
+        h_ut_native_root = {}
+        if h_ut_kv or h_ut_utlogmap:
+            h_ut_native_root.update(h_ut_kv)
+            parsed_utlogmap = h_ut_utlogmap.get('parsed')
+            if isinstance(parsed_utlogmap, dict):
+                h_ut_native_root['utLogMap'] = parsed_utlogmap
+        matched_slot = matched_product_exposure_slot(payload)
+
+        def resolve_actual(path: str, field: str) -> Optional[Any]:
+            candidates: List[Any] = []
+            if matched_slot is not None:
+                candidates.append(matched_slot)
+            if h_ut_native_root:
+                candidates.append(h_ut_native_root)
+            if isinstance(params, dict):
+                candidates.append(params)
+            candidates.append(payload)
+
+            for candidate in candidates:
+                value = navigate_path(candidate, path)
+                if value is not None and not isinstance(value, (dict, list)):
+                    return value
+
+            for candidate in candidates:
+                value = find_value_recursive(candidate, field)
+                if value is not None and not isinstance(value, (dict, list)):
+                    return value
+            return None
+
+        errors = []
+        passed_fields = {}
+        for spec_key, spec_value in expected_data.items():
+            path, field, expected_value = normalize_expected_spec(spec_key, spec_value)
+            actual_value = payload.get(field) if event_type == 'PDP PV' else resolve_actual(path, field)
+            display_key = path or field
+
+            field_passed = False
+            if isinstance(expected_value, str) and expected_value == "__SKIP__":
+                passed_fields[display_key] = {"expected": "__SKIP__", "actual": "(skip)"}
+                continue
+            if isinstance(expected_value, str) and expected_value == "":
+                if actual_value is None or (isinstance(actual_value, str) and actual_value == ""):
+                    field_passed = True
+                else:
+                    errors.append(f"'{display_key}' mismatch. expected='', actual={actual_value}")
+            elif field in ("origin_price", "promotion_price") and _is_price_sentinel_one(actual_value):
+                field_passed = True
+            elif actual_value is None:
+                errors.append(f"'{display_key}' value is missing.")
+            elif isinstance(expected_value, str) and expected_value == "__MANDATORY__":
+                if isinstance(actual_value, str):
+                    field_passed = actual_value.strip() != ""
+                else:
+                    field_passed = actual_value is not None
+                if not field_passed:
+                    errors.append(f"'{display_key}' is mandatory but empty.")
+            elif isinstance(expected_value, list):
+                if actual_value in expected_value:
+                    field_passed = True
+                else:
+                    errors.append(f"'{display_key}' mismatch. expected one of {expected_value}, actual={actual_value}")
+            else:
+                contains_match_fields = {'spm-url', 'spm-pre', 'spm-cnt'}
+                if field in contains_match_fields and isinstance(expected_value, str) and isinstance(actual_value, str):
+                    def normalize_spm_value(value: str) -> str:
+                        return re.sub(r'\d+$', '', value)
+                    expected_normalized = normalize_spm_value(expected_value)
+                    actual_normalized = normalize_spm_value(actual_value)
+                    if expected_normalized == actual_normalized or expected_normalized in actual_normalized or expected_value in actual_value:
+                        field_passed = True
+                    else:
+                        errors.append(f"'{display_key}' mismatch. expected contains {expected_value}, actual={actual_value}")
+                elif field == 'ab_buckets' and isinstance(expected_value, str):
+                    actual_text = "" if actual_value is None else str(actual_value)
+                    if expected_value and expected_value in actual_text:
+                        field_passed = True
+                    else:
+                        errors.append(f"'{display_key}' mismatch. expected contains {expected_value}, actual={actual_value}")
+                elif field == 'query' and isinstance(expected_value, str) and isinstance(actual_value, str):
+                    if expected_value.strip().lower() == actual_value.strip().lower():
+                        field_passed = True
+                    else:
+                        errors.append(f"'{display_key}' mismatch. expected={expected_value}, actual={actual_value}")
+                elif field == 'spm':
+                    exp_n = self._normalize_spm_for_banner_match(str(expected_value) if expected_value is not None else '')
+                    act_n = self._normalize_spm_for_banner_match(str(actual_value) if actual_value is not None else '')
+                    if exp_n == act_n:
+                        field_passed = True
+                    else:
+                        errors.append(f"'{display_key}' mismatch. expected={expected_value}, actual={actual_value}")
+                elif str(expected_value) == str(actual_value):
+                    field_passed = True
+                elif actual_value != expected_value:
+                    errors.append(f"'{display_key}' mismatch. expected={expected_value}, actual={actual_value}")
+                else:
+                    field_passed = True
+
+            if field_passed:
+                passed_fields[display_key] = {"expected": expected_value, "actual": actual_value}
+
+        if errors:
+            decoded_info = payload.get('decoded_gokey', {})
+            raise AssertionError(
+                "Payload validation failed:\n"
+                + "\n".join(errors)
+                + "\nDecoded params: "
+                + json.dumps(decoded_info.get('params', {}), ensure_ascii=False, indent=2)
+            )
+
+        return True, passed_fields
+
     def clear_logs(self):
         """
         수집된 모든 로그 초기화
         """
         self.logs.clear()
+        self._h_ut_pipeline.clear()
         logger.info('로그 초기화 완료')
+
+    def get_h_ut_pipeline(self) -> List[Dict[str, Any]]:
+        """시나리오 구간 중 수집된 h-ut → 합성 aplus 적재 요약(저장용)."""
+        return list(self._h_ut_pipeline)
     
     def __enter__(self):
         """

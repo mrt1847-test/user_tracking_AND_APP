@@ -778,6 +778,9 @@ def _save_tracking_logs(bdd_context, tracker, goodscode, module_title, nth=None)
     goodscode가 없으면 PV·Module Exposure·General 등만 포함하고, PDP PV·Product·PDP 클릭 계열은 생략한다.
     """
     try:
+        if hasattr(tracker, "sync_from_source"):
+            tracker.sync_from_source()
+
         # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         area = bdd_context.get('area')
         if not area:
@@ -943,6 +946,35 @@ def _save_tracking_logs(bdd_context, tracker, goodscode, module_title, nth=None)
             with open(all_filepath, 'w', encoding='utf-8') as f:
                 json.dump(all_logs, f, ensure_ascii=False, indent=2, default=str)
             logger.info(f"전체 트래킹 로그 저장 완료: {all_filepath.resolve()} (로그 개수: {len(all_logs)})")
+
+        h_ut_pipeline: list = []
+        if hasattr(tracker, "get_h_ut_pipeline"):
+            try:
+                h_ut_pipeline = tracker.get_h_ut_pipeline()
+            except Exception as pipe_exc:
+                logger.debug("get_h_ut_pipeline 생략: %s", pipe_exc)
+        if h_ut_pipeline:
+            if nth is not None and str(nth).strip() != '':
+                pipe_filepath = Path(f'json/tracking_h_ut_pipeline_{module_safe}({nth}).json')
+            else:
+                pipe_filepath = Path(f'json/tracking_h_ut_pipeline_{module_safe}.json')
+            pipe_filepath.parent.mkdir(parents=True, exist_ok=True)
+            pipe_doc = {
+                "schema_version": 1,
+                "note": (
+                    "네이티브 UT는 h-ut.gmarket.co.kr/upload 배치(gzip)로 전송됩니다. "
+                    "mitm은 HTTP 이후만 캡처합니다. 각 항목은 JSONL 이벤트 줄을 합성 aplus로 풀어 "
+                    "tracker에 넣기 전 단계의 요약입니다."
+                ),
+                "h_ut_pipeline": h_ut_pipeline,
+            }
+            with open(pipe_filepath, 'w', encoding='utf-8') as f:
+                json.dump(pipe_doc, f, ensure_ascii=False, indent=2, default=str)
+            logger.info(
+                "h-ut 파이프라인 요약 저장: %s (항목 %d개)",
+                pipe_filepath.resolve(),
+                len(h_ut_pipeline),
+            )
 
         # # Product Exposure 이벤트만 SPM 기준으로 별도 파일 저장 (상품번호 필터 없음)
         # if module_spm:

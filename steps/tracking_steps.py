@@ -2,10 +2,14 @@
 BDD Step Definitions for Network Tracking
 네트워크 트래킹 관련 공통 스텝 정의
 """
-import time
+import json
 import logging
+import time
+from pathlib import Path
+
 from pytest_bdd import given, when
 from utils.NetworkTracker import NetworkTracker
+from utils.h_ut_upload_timing import configure_native_h_ut_wait_env
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +18,12 @@ logger = logging.getLogger(__name__)
 def given_network_tracking_started(browser_session, bdd_context):
     """네트워크 트래킹 시작"""
     logger.info("네트워크 트래킹 시작")
+    try:
+        cfg_path = Path(__file__).resolve().parent.parent / "config.json"
+        app_config = json.loads(cfg_path.read_text(encoding="utf-8"))
+        configure_native_h_ut_wait_env(app_config)
+    except Exception as exc:
+        logger.debug("h-ut wait env not configured: %s", exc)
     tracker = NetworkTracker(browser_session.page)
     tracker.start()
     bdd_context['tracker'] = tracker
