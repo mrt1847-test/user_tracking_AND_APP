@@ -18,6 +18,25 @@ from utils.validation_helpers import (
 logger = logging.getLogger(__name__)
 
 
+def _infer_area_from_module_schema(module_title, nth=None):
+    """Find the tracking schema area that owns this module config."""
+    module_safe = module_title_to_filename(module_title)
+    schema_root = Path(__file__).resolve().parent.parent / "tracking_schemas"
+    if not schema_root.exists():
+        return None
+
+    candidates = []
+    if nth is not None and str(nth).strip() != "":
+        candidates.append(f"{module_safe}({nth}).json")
+    candidates.append(f"{module_safe}.json")
+
+    for filename in candidates:
+        matches = sorted(schema_root.glob(f"*/{filename}"))
+        if matches:
+            return matches[0].parent.name
+    return None
+
+
 def _check_and_validate_event_logs(
     tc_id: str,
     event_type: str,
@@ -144,7 +163,8 @@ def _get_common_context(bdd_context):
     if not module_title:
         raise ValueError("bdd_context에 'module_title'가 없습니다.")
     
-    area = bdd_context.get('area')
+    nth = bdd_context.get('nth')
+    area = bdd_context.get('area') or _infer_area_from_module_schema(module_title, nth)
     if not area:
         raise ValueError("bdd_context에 'area'가 없습니다. Feature 파일 경로에서 영역을 추론하지 못했습니다.")
     
@@ -188,7 +208,8 @@ def _get_common_context_for_module_exposure(bdd_context):
     if not module_title:
         raise ValueError("bdd_context에 'module_title'가 없습니다.")
 
-    area = bdd_context.get('area')
+    nth = bdd_context.get('nth')
+    area = bdd_context.get('area') or _infer_area_from_module_schema(module_title, nth)
     if not area:
         raise ValueError("bdd_context에 'area'가 없습니다. Feature 파일 경로에서 영역을 추론하지 못했습니다.")
 
@@ -782,10 +803,15 @@ def _save_tracking_logs(bdd_context, tracker, goodscode, module_title, nth=None)
             tracker.sync_from_source()
 
         # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        area = bdd_context.get('area')
+        area = bdd_context.get('area') or _infer_area_from_module_schema(module_title, nth)
         if not area:
             raise ValueError("bdd_context에 'area'가 없습니다. Feature 파일 경로에서 영역을 추론하지 못했습니다.")
         module_config = load_module_config(area=area, module_title=module_title, nth=nth)
+        if not module_config and bdd_context.get('area') and bdd_context.get('area') != area:
+            inferred_area = _infer_area_from_module_schema(module_title, nth)
+            if inferred_area and inferred_area != area:
+                area = inferred_area
+                module_config = load_module_config(area=area, module_title=module_title, nth=nth)
         
         # 모듈별 설정에서 SPM 가져오기 (이벤트 타입별 섹션에서, 재귀적으로 탐색)
         module_spm = None
@@ -937,15 +963,21 @@ def _save_tracking_logs(bdd_context, tracker, goodscode, module_title, nth=None)
             all_logs.extend(tracker.get_pdp_join_click_logs_by_goodscode(effective_goodscode))
             all_logs.extend(tracker.get_pdp_rental_click_logs_by_goodscode(effective_goodscode))
 
-        if len(all_logs) > 0:
-            if nth is not None and str(nth).strip() != '':
-                all_filepath = Path(f'json/tracking_all_{module_safe}({nth}).json')
-            else:
-                all_filepath = Path(f'json/tracking_all_{module_safe}.json')
-            all_filepath.parent.mkdir(parents=True, exist_ok=True)
-            with open(all_filepath, 'w', encoding='utf-8') as f:
-                json.dump(all_logs, f, ensure_ascii=False, indent=2, default=str)
+        if nth is not None and str(nth).strip() != '':
+            all_filepath = Path(f'json/tracking_all_{module_safe}({nth}).json')
+        else:
+            all_filepath = Path(f'json/tracking_all_{module_safe}.json')
+        all_filepath.parent.mkdir(parents=True, exist_ok=True)
+        with open(all_filepath, 'w', encoding='utf-8') as f:
+            json.dump(all_logs, f, ensure_ascii=False, indent=2, default=str)
+        if all_logs:
             logger.info(f"전체 트래킹 로그 저장 완료: {all_filepath.resolve()} (로그 개수: {len(all_logs)})")
+        else:
+            logger.warning(
+                "전체 트래킹 로그가 0개라 빈 배열로 저장했습니다: %s. "
+                "프록시 flush 대기, scenario marker, 필터 SPM/goodscode를 확인하세요.",
+                all_filepath.resolve(),
+            )
 
         h_ut_pipeline: list = []
         if hasattr(tracker, "get_h_ut_pipeline"):

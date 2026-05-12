@@ -532,6 +532,18 @@ class AppiumRuntime:
                 "block_global=false",
             ]
         )
+        ssl_insecure_cfg = self.proxy_config.get(
+            "sslInsecure", self.proxy_config.get("ssl_insecure")
+        )
+        ssl_insecure = _as_bool(ssl_insecure_cfg, default=True)
+        if ssl_insecure:
+            cmd.append("--ssl-insecure")
+
+        connection_strategy = self.proxy_config.get(
+            "connectionStrategy", self.proxy_config.get("connection_strategy")
+        )
+        if isinstance(connection_strategy, str) and connection_strategy.strip():
+            cmd.extend(["--set", f"connection_strategy={connection_strategy.strip()}"])
 
         # mitmdump's Dumper addon: default log shows every HTTP exchange. Optionally limit to POST+GET.
         dumper_filter_notes = "none"
@@ -544,11 +556,28 @@ class AppiumRuntime:
             cmd.extend(["--set", "dumper_filter=~m post | ~m get"])
             dumper_filter_notes = "~m post | ~m get"
 
+        ignore_hosts_raw = (
+            self.proxy_config.get("ignoreHosts")
+            or self.proxy_config.get("ignore_hosts")
+            or self.proxy_config.get("mitmdumpIgnoreHosts")
+        )
+        ignore_hosts: list[str] = []
+        if isinstance(ignore_hosts_raw, str):
+            ignore_hosts = [ignore_hosts_raw.strip()] if ignore_hosts_raw.strip() else []
+        elif isinstance(ignore_hosts_raw, (list, tuple)):
+            ignore_hosts = [
+                str(item).strip() for item in ignore_hosts_raw if str(item).strip()
+            ]
+        for pattern in ignore_hosts:
+            cmd.extend(["--ignore-hosts", pattern])
+
         self._proxy_log_fp = mitm_log_path.open("a", encoding="utf-8")
         self._proxy_log_fp.write(
             f"\n--- mitmdump start {time.strftime('%Y-%m-%d %H:%M:%S')} "
             f"listen={self.proxy_host}:{self.proxy_port} quiet={quiet} verbosity={vc} "
-            f"dumper_filter={dumper_filter_notes} ---\n"
+            f"ssl_insecure={ssl_insecure} connection_strategy={connection_strategy or '(default)'} "
+            f"dumper_filter={dumper_filter_notes} "
+            f"ignore_hosts={','.join(ignore_hosts) if ignore_hosts else '(none)'} ---\n"
         )
         self._proxy_log_fp.flush()
 

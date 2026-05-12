@@ -19,6 +19,7 @@ logger = logging.getLogger(__name__)
 def go_to_product_page(browser_session, goodscode, bdd_context):
     """특정 상품번호의 상품 상세페이지로 접속
     실패 시에도 다음 스텝으로 진행"""
+    bdd_context.store['goodscode'] = goodscode
     try:
         product_page = ProductPage(browser_session.page)
         # browser_session.page.goto(f"https://item.gmarket.co.kr/Item?goodscode={goodscode}")

@@ -213,3 +213,16 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\appium_smoke.ps1
   - `JAVA_HOME` 미설정. 2-4 절 참고하여 `JAVA_HOME`을 Android Studio JBR 경로로 지정하고 새 터미널에서 재실행
 - `--allow-insecure` 관련 `The full feature name must include both the destination automation name or the '*' wildcard ...`
   - Appium 3.x 부터 `<automationName>:<feature>` 형식 필수. `config.json`의 `appium.allow_insecure`를 `uiautomator2:chromedriver_autodownload` 등으로 변경
+
+
+
+  CA 인증서 에뮬레이터 설정법
+
+  mitmproxy 실행
+  mitmdump -p 8080 --listen-host 0.0.0.0 --ssl-insecure --set connection_strategy=lazy
+
+  에뮬레이터 기기 프록시 연결후 실행행
+  emulator -avd AOS16 -no-snapshot-load -http-proxy http://127.0.0.1:8080
+
+  기기에서 http://mitm.it 접속 후 CA 인증서 다운로드
+  setting > CA certificate 검색후 다운받은 CA 인증서 설치치

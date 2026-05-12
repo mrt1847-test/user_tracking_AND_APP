@@ -36,7 +36,7 @@
         "platformName": "Android",
         "automationName": "UiAutomator2",
         "deviceName": "AOS16",
-        "app": "C:/APK/GmarketMobile-prod-debugFinal-20260429_032548.apk",
+        "app": "C:/APK/GmarketMobile-prod-debugFinal-20260512_032841.apk",
         "appPackage": "com.ebay.kr.gmarket",
         "appActivity": "com.ebay.kr.gmarket.eBayKoreaGmarketActivity",
         "adbExecTimeout": 60000,
@@ -76,6 +76,11 @@
         "mitmdumpQuiet": false,
         "mitmdumpVerbose": 1,
         "mitmdumpPostOnlyLogs": true,
+        "ignoreHosts": [
+            "^gmscompliance-pa\\.googleapis\\.com(:443)?$"
+        ],
+        "sslInsecure": true,
+        "connectionStrategy": "lazy",
         "logEachCapture": true,
         "install_ca": false,
         "capture_domains": [

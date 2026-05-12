@@ -224,7 +224,7 @@ BUSINESS_MEMBER_PASSWORD=<business_member_password>
 - `runner_backend`: 실행 백엔드. `appium_hybrid_android`(권장) 또는 `appium_android`/`appium`
 - `mobile_profile`: 모바일 에뮬레이션. `iphone` 또는 `galaxy_s20`
 - `appium`: Appium 서버/디바이스/APK/앱 액티비티 설정
-- `proxy`: mitmproxy 수집 설정(`listen_host`, `listen_port`, `capture_domains`)
+- `proxy`: mitmproxy 수집 설정(`listen_host`, `listen_port`, `capture_domains`, `sslInsecure`, `ignoreHosts`)
 - `testrail_report`: TestRail 기록 여부. `"Y"` / `"N"`
 - `testrail_run_name`: 새 Run 이름. `{datetime}` 치환 가능
 - `testrail_run_create`: `true`면 새 Run 생성, `false`면 기존 Run 사용
@@ -482,7 +482,9 @@ python scripts/sheets_to_json.py --help
 - 시나리오에서 네트워크 트래킹 시작 step이 실행됐는지 확인합니다.
 - `mitmdump`가 실행 가능한지 확인합니다.
 - 단말에 mitmproxy 인증서가 설치되어 HTTPS 복호화가 가능한지 확인합니다.
-- 요청 도메인이 `aplus.gmarket.co.kr` 또는 `aplus.gmarket.com`인지 확인합니다.
+- 요청 도메인이 `aplus.gmarket.co.kr`, `aplus.gmarket.com`, 또는 `h-ut.gmarket.co.kr/upload`인지 확인합니다.
+- `h-ut.gmarket.co.kr/upload`에서 `Certificate verify failed: self-signed certificate in certificate chain`가 보이면 `proxy.sslInsecure: true`인지 확인합니다. 자동 실행되는 `mitmdump`에는 `--ssl-insecure`가 붙어야 합니다.
+- `Client TLS handshake failed ... certificate unknown`가 캡처 대상이 아닌 Google/시스템 도메인에서 반복되면 `proxy.ignoreHosts`에 정규식(예: `^gmscompliance-pa\\.googleapis\\.com(:443)?$`)을 추가해 mitm TLS 가로채기를 우회합니다.
 - 클릭/노출 후 충분한 대기 시간이 있는지 확인합니다.
 - 새 탭으로 이동하는 흐름이면 `browser_session` active page가 전환됐는지 확인합니다.
 

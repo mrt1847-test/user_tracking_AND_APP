@@ -57,6 +57,8 @@ npm install -g appium
     "listen_host": "127.0.0.1",
     "device_host": "10.0.2.2",
     "listen_port": 8081,
+    "sslInsecure": true,
+    "connectionStrategy": "lazy",
     "install_ca": true,
     "capture_domains": [
       "aplus.gmarket.co.kr",
@@ -72,6 +74,8 @@ npm install -g appium
 - `appium.app`: APK 경로(하이브리드 모드에서는 사실상 필수)
 - `noReset: false`: 매 실행 설치/초기화 정책 유지
 - `proxy.device_host`: 에뮬레이터는 일반적으로 `10.0.2.2`
+- `proxy.sslInsecure`: mitmproxy가 upstream 서버 인증서 검증에 막히지 않도록 `--ssl-insecure` 적용
+- `proxy.connectionStrategy`: 필요 시 `lazy`로 조기 upstream 연결을 줄임
 
 ## 5) 로그인 셀렉터 설정 (`app_login`)
 
