@@ -4,105 +4,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
-          "spm": "gmktapp.home.today_itemcarousel.dtitle",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014207"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_itemcarousel.dtitle",
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 39,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000032,00000024",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240646",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail6,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail6,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
           "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_itemcarousel.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014207\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_itemcarousel.dtitle",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014207"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    },
-    "timestamp": 1778399984.5440104,
-    "method": "POST",
-    "h_ut_capture": {
-      "source": "mitm_h_ut_upload",
-      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:81",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 81,
-      "event_count": 150,
-      "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 80
-    }
-  },
-  {
-    "type": "General Exposure",
-    "url": "https://aplus.gmarket.co.kr/general.exposure.event",
-    "payload": {
-      "_native_h_ut": true,
-      "expdata": [
-        {
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail6",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail6",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail6\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail6",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:82",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 82,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:40",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 40,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 81
+      "pipe_record_index": 39
     }
   },
   {
@@ -110,52 +82,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 40,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000031,00000023",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240636",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail5,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail5,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail5",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail5",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail5\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail5",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:83",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 83,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:41",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 41,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 82
+      "pipe_record_index": 40
     }
   },
   {
@@ -163,52 +160,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 41,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000030,00000022",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240632",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail4,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail4,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail4",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail4",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail4\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail4",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:84",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 84,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:42",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 42,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 83
+      "pipe_record_index": 41
     }
   },
   {
@@ -216,52 +238,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 42,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000029,00000021",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240621",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail3,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail3,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail3",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail3",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail3\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail3",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:85",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 85,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:43",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 43,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 84
+      "pipe_record_index": 42
     }
   },
   {
@@ -269,52 +316,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 43,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000028,00000020",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240618",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail2,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail2,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail2",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail2",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail2\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail2",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:86",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 86,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:44",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 44,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 85
+      "pipe_record_index": 43
     }
   },
   {
@@ -322,52 +394,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 44,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000027,00000019",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240614",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail1,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail1,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail1",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail1",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail1\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail1",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:87",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 87,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:45",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 45,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 86
+      "pipe_record_index": 44
     }
   },
   {
@@ -375,52 +472,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 45,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000026,00000018",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240608",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail0,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014512,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_shortcut.dthumbnail0,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014512",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_shortcut.dthumbnail0",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014512"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_shortcut.dthumbnail0",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_shortcut.dthumbnail0\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014512\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_shortcut.dthumbnail0",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014512"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:88",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 88,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:46",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 46,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 87
+      "pipe_record_index": 45
     }
   },
   {
@@ -428,52 +550,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
-          "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014510"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 46,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000025,00000017",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572240597",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014510,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_widebanner.dtab0_banner37,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014510,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_widebanner.dtab0_banner37,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014510",
+          "pguid": "21778572227013003752010000",
           "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_widebanner.dtab0_banner33\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014510\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_widebanner.dtab0_banner33",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014510"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "ab_buckets": "",
+          "spm": "gmktapp.home.today_widebanner.dtab0_banner37",
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:89",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 89,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:47",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 47,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 88
+      "pipe_record_index": 46
     }
   },
   {
@@ -481,52 +628,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
-          "spm": "gmktapp.home.today_campaign.dtitle",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014548"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_campaign.dtitle",
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 51,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000020,00000012",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572236807",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014548,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dtitle,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014548,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dtitle,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014548",
+          "pguid": "21778572227013003752010000",
           "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014548\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_campaign.dtitle",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014548"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "ab_buckets": "",
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:94",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 94,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:52",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 52,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 93
+      "pipe_record_index": 51
     }
   },
   {
@@ -534,52 +706,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
-          "spm": "gmktapp.home.today_campaign.dtitle",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014514"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_campaign.dtitle",
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 56,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000015,00000007",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572236172",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014514,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dtitle,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014514,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dtitle,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014514",
+          "pguid": "21778572227013003752010000",
           "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dtitle\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014514\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_campaign.dtitle",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014514"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "ab_buckets": "",
+          "spm": "gmktapp.home.today_campaign.dtitle",
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:99",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 99,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:57",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 57,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 98
+      "pipe_record_index": 56
     }
   },
   {
@@ -587,78 +784,77 @@
     "url": "https://aplus.gmarket.co.kr/general.exposure.event",
     "payload": {
       "_native_h_ut": true,
-      "expdata": [
-        {
+      "h_ut": {
+        "event_path": "/General.Exposure.Event",
+        "record_index": 57,
+        "pipe_field_count": 33,
+        "pipe_fields": [
+          "google",
+          "sdk_gphone64_x86_64",
+          "2400*1080",
+          "T-Mobile",
+          "2G/3G",
+          "LTE",
+          "600000",
+          "35008440",
+          "10.8.6",
+          "-",
+          "-",
+          "-",
+          "-",
+          "Unknown",
+          "a",
+          "16",
+          "6.5.12.36",
+          "1778572227400",
+          "agLbw/xTnn8DABicdPM+ecEi",
+          "mini",
+          "-",
+          "00000014,00000006",
+          "-",
+          "hmos=0,oaid=null",
+          "_spt5g=1,_glat=0,gps_adid=2dd60a07-5f2e-432e-9678-d39a178e3a20,_timeAdjust=0,_pad=0,_t=1778572227400",
+          "1778572236123",
+          "home",
+          "2201",
+          "/General.Exposure.Event",
+          "-",
+          "-",
+          "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014514,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dactionbutton,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+          "agLbylH5GJC9TFqSn/IYEw=="
+        ],
+        "kv_blob": "app_env=dev,server_env=prod,content=,cguid=11778572227013003752000000,gmkt_area_code=200014514,pguid=21778572227013003752010000,spm-cnt=gmktapp.home,ab_buckets=,spm=gmktapp.home.today_campaign.dactionbutton,sguid=31778572227013003752510000,utpvid=3\u0001agLbylHxwtQ684/qjOtsLw==",
+        "kv": {
+          "app_env": "dev",
+          "server_env": "prod",
+          "content": "",
+          "cguid": "11778572227013003752000000",
+          "gmkt_area_code": "200014514",
+          "pguid": "21778572227013003752010000",
+          "spm-cnt": "gmktapp.home",
+          "ab_buckets": "",
           "spm": "gmktapp.home.today_campaign.dactionbutton",
-          "exargs": {
-            "params-exp": {
-              "parsed": {
-                "gmkt_area_code": "200014514"
-              }
-            }
-          }
-        }
-      ],
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.home.today_campaign.dactionbutton",
-          "spm-cnt": "gmktapp.home",
-          "expdata": {
-            "raw": "[{\"spm\": \"gmktapp.home.today_campaign.dactionbutton\", \"exargs\": {\"params-exp\": {\"parsed\": {\"gmkt_area_code\": \"200014514\"}}}}]",
-            "parsed": [
-              {
-                "spm": "gmktapp.home.today_campaign.dactionbutton",
-                "exargs": {
-                  "params-exp": {
-                    "parsed": {
-                      "gmkt_area_code": "200014514"
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+          "sguid": "31778572227013003752510000",
+          "utpvid": "3"
+        },
+        "page": "home",
+        "event_code": "2201"
+      },
+      "page": "home",
+      "event_code": "2201"
     },
-    "timestamp": 1778399984.5440104,
+    "timestamp": 1778572327.3240762,
     "method": "POST",
     "h_ut_capture": {
       "source": "mitm_h_ut_upload",
       "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:100",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 100,
-      "event_count": 150,
+      "mitm_line_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2:58",
+      "parent_request_id": "d9fe79269037a2543feac24ccd8dd0d8d41e43f2",
+      "upload_timestamp": 1778572327.3240762,
+      "event_index": 58,
+      "event_count": 86,
       "pipe_event_path": "/General.Exposure.Event",
-      "pipe_record_index": 99
-    }
-  },
-  {
-    "type": "General Click",
-    "url": "https://aplus.gmarket.co.kr/general.click.event",
-    "payload": {
-      "_native_h_ut": true,
-      "decoded_gokey": {
-        "params": {
-          "spm": "gmktapp.pdp.searchpopup.dbestkeyword4",
-          "spm-cnt": "gmktapp.pdp"
-        }
-      }
-    },
-    "timestamp": 1778399984.5440104,
-    "method": "POST",
-    "h_ut_capture": {
-      "source": "mitm_h_ut_upload",
-      "h_ut_upload_url": "https://h-ut.gmarket.co.kr/upload",
-      "mitm_line_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2:107",
-      "parent_request_id": "55fef34bff8daa08c4426c0fce8c31ec13d60ee2",
-      "upload_timestamp": 1778399984.5440104,
-      "event_index": 107,
-      "event_count": 150,
-      "pipe_event_path": "/General.Click.Event",
-      "pipe_record_index": 106
+      "pipe_record_index": 57
     }
   }
 ]

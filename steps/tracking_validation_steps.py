@@ -4,6 +4,7 @@ BDD Step Definitions for Tracking Validation
 """
 import logging
 import json
+import time
 from datetime import datetime
 from pathlib import Path
 from pytest_bdd import then, parsers
@@ -745,6 +746,7 @@ def then_save_all_tracking_logs_to_json(bdd_context):
     tracker·module_title이 없을 때만 저장을 생략한다.
     """
     tracker = bdd_context.get("tracker")
+    time.sleep(60)
     if not tracker:
         logger.warning(
             "트래킹 JSON 저장 생략: bdd_context에 tracker가 없습니다. (이전 스텝 실패 가능)"

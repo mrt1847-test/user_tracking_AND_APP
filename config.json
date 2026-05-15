@@ -1,8 +1,8 @@
 {
-    "testrail_report": "N",
+    "testrail_report": "Y",
     "testrail_run_name": "User Tracking Aoutomation Test-mweb {datetime}",
-    "testrail_run_create": true,
-    "testrail_run_id": "63031",
+    "testrail_run_create": false,
+    "testrail_run_id": "63305",
     "testrail_close_run_on_finish": "N",
     "milestone_id": "",
     "project_id": "",

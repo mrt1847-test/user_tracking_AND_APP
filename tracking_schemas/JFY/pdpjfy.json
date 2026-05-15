@@ -96,7 +96,7 @@
           "pid": "m_dev_gmarket_co_kr",
           "channel_code": "200003514",
           "server_env": "<environment>",
-          "spm": "gmktm.pdp.pdpjfy"
+          "spm": "gmktapp.pdp.pdpjfy"
         }
       },
       "gmkey": "EXP",
@@ -190,7 +190,7 @@
           }
         },
         "scm": "",
-        "spm": "gmktm.pdp.pdpjfy.ditem0"
+        "spm": "gmktapp.pdp.pdpjfy.ditem0"
       },
       "raw": "mandatory"
     },
@@ -389,6 +389,6 @@
     "pid": "m_dev_gmarket_co_kr",
     "channel_code": "200003514",
     "server_env": "<environment>",
-    "spm": "gmktm.pdp.pdpjfy.ditem0"
+    "spm": "gmktapp.pdp.pdpjfy.ditem0"
   }
 }
